@@ -30,6 +30,7 @@
 			text-overflow: ellipsis !important;
 			overflow-x: hidden !important;
 			white-space: nowrap !important;
+			max-width: 20px !important;
 			font-size: 10px;
 		}
 		
@@ -38,7 +39,6 @@
 			height: 20px !important;
 			padding: 0px 12px !important;
 			font-size: 10px;
-			width: auto;
 		}
 		
 		table td input.form-control {
@@ -303,6 +303,44 @@
 
 <body>
 	
+	<!-- Menu suspenso retratil para multi glosas -->
+	<div id="glosarMenu" class="panel" style="">
+		<div class="panel-body">
+			<div class="row">
+				<div style="width: calc(100% - 120px);">
+					<div class="col-sm-3">
+						<label>Glosa</label>
+						<div class="input-group">
+							<input id="glosaMenuInput" type="text" class="form-control">
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+							</div>
+							<!-- /btn-group -->
+						</div>
+						<!-- /input-group -->
+					</div>
+
+					<div class="col-sm-2">
+						<label>Quantidade</label>
+						<input type="text" class="form-control" placeholder="Quantidade...">
+					</div>
+
+					<div class="col-sm-7">
+						<label>Motivo</label>
+						<input type="text" class="form-control" placeholder="Motivo...">
+					</div>
+				</div>
+
+				<div style="width: 120px; display: inline-block; padding: 25px 15px 0;">
+					<button class="btn btn-danger btn-block" onclick="glosar();descheckar();">Glosar</button>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
+	
 	<!-- Btns flutuantes fixos de canto de tela para enviar -->
 	<nav class="container">
         <a href="index.html" class="buttons" tooltip="Enfermagem"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
@@ -475,53 +513,31 @@
 		<!-- PAINEL DOS MOVIMENTOS AUTORIZADOS -->
 		<div class="panel">
 			<div class="panel-heading">
-				<h3 style="margin-top: 0;">Movimentos Autorizados </h3>
+				<h3 style="margin-top: 0;">Movimentos </h3>
 				<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
 			</div>
 			<div class="panel-body">
 				<div style="float: right" >
-					<img class="clickable icon-view selected" onclick="changeViewMode(this, 'prestador')" style="width: 20px;" src="resources/doctor.png" alt="Agrupamento por prestador">
+					<img class="clickable icon-view selected" onclick="changeViewMode(this, 'guia')" style="width: 19px;" src="resources/guia.png" alt="Agrupamento por guia">
+					
+					<img class="clickable icon-view" onclick="changeViewMode(this, 'prestador')" style="width: 20px;" src="resources/doctor.png" alt="Agrupamento por prestador">
 					
 					<img class="clickable icon-view" onclick="changeViewMode(this, 'movimento')" style="width: 24px;" src="resources/procedure.png" alt="Agrupamento por movimento">
 				</div>
-				<div id="autorizadosGuia">				
+				<div id="movimentosGuia">				
 					<h4>
 						Guia &nbsp;&nbsp;
 						<small class="text-muted"> - 2017 - 00000001 - HOSPITAL PRESTADOR </small> &nbsp;&nbsp;
 						<button type="button" style="font-size: 14px !important;padding: 2px 12px !important;" class="btn btn-default btn-procedimentos">Adicionar Prestador</button>
 					</h4>
 					
-					<br>
-					
-					<form>
-						<div class="row form-inline">
-							<div class="col-md-4">
-								<div class="form-group">
-									<label>Data Realização: &nbsp;&nbsp;</label><input type="text" class="form-control form-control-report" id="realizado">
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label>Hora Inicio: &nbsp;&nbsp;</label><input type="text" class="form-control form-control-report" id="inicio">
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label>Hora Fim: &nbsp;&nbsp;</label><input type="text" class="form-control form-control-report" id="fim">
-								</div>
-							</div>
-						</div>
-					</form>
-					
-					<br>
-					
 					<h5>PRINCIPAL &nbsp;&nbsp;</h5>
 					
 					<div class="table-responsive">
-						<table id="movimentosNaoCobrados1" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+						<table id="guiaMovimentos1" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th></th>
+									<th><input type="checkbox"></th>
 									<th>Nível Prestador</th>
 									<th>Movimento</th>
 									<th>Prestador</th>
@@ -529,6 +545,11 @@
 									<th>Via Acesso</th>
 									<th>Urg</th>
 									<th>Qtd X Pagamento</th>
+									<th>Qt</th>
+									<th>Valor</th>
+									<th>Pgto</th>
+									<th>Glosa</th>
+									<th>Qt. Gl</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -540,10 +561,10 @@
 					<h5>PRIMEIRO AUXILIAR &nbsp;&nbsp;</h5>
 
 					<div class="table-responsive">
-						<table id="movimentosNaoCobrados2" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+						<table id="guiaMovimentos2" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th></th>
+									<th><input type="checkbox"></th>
 									<th>Nível Prestador</th>
 									<th>Movimento</th>
 									<th>Prestador</th>
@@ -551,6 +572,11 @@
 									<th>Via Acesso</th>
 									<th>Urg</th>
 									<th>Qtd X Pagamento</th>
+									<th>Qt</th>
+									<th>Valor</th>
+									<th>Pgto</th>
+									<th>Glosa</th>
+									<th>Qt. Gl</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -562,10 +588,10 @@
 					<h5>ANESTESISTA &nbsp;&nbsp;</h5>
 
 					<div class="table-responsive">
-						<table id="movimentosNaoCobrados3" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+						<table id="guiaMovimentos3" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th></th>
+									<th><input type="checkbox"></th>
 									<th>Nível Prestador</th>
 									<th>Movimento</th>
 									<th>Prestador</th>
@@ -573,6 +599,11 @@
 									<th>Via Acesso</th>
 									<th>Urg</th>
 									<th>Qtd X Pagamento</th>
+									<th>Qt</th>
+									<th>Valor</th>
+									<th>Pgto</th>
+									<th>Glosa</th>
+									<th>Qt. Gl</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -585,12 +616,140 @@
 					<!-- <h5>ANESTESISTA AUXILIAR &nbsp;&nbsp;</h5> -->
 				</div>
 			
-				<div id="autorizadosPrestador">				
-					<h4>
-						Guia &nbsp;&nbsp;
-						<small class="text-muted"> - 2017 - 00000001 - HOSPITAL PRESTADOR </small> &nbsp;&nbsp;
-						<button type="button" style="font-size: 14px !important;padding: 2px 12px !important;" class="btn btn-default btn-procedimentos">Adicionar Prestador</button>
-					</h4>
+				<div id="movimentosPrestador" hidden>				
+					
+					<h5>COOP PARAN DOS ANESTESIOLOGISTAS LTDA &nbsp;&nbsp;</h5>
+					
+					<div class="table-responsive">
+						<table id="prestadorMovimentos1" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th><input type="checkbox"></th>
+									<th>Guia</th>
+									<th>Especialidade</th>
+									<th>Nível Prestador</th>
+									<th width="10">Movimento</th>
+									<th>Via Acesso</th>
+									<th>Urg</th>
+									<th>Qtd X Pag</th>
+									<th>Qt</th>
+									<th>Valor</th>
+									<th>Pgto</th>
+									<th>Glosa</th>
+									<th>Qt. Gl</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					
+					<br>
+					
+					<h5>CARLOS EDUARDO GUBERT &nbsp;&nbsp;</h5>
+
+					<div class="table-responsive">
+						<table id="prestadorMovimentos2" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th><input type="checkbox"></th>
+									<th>Guia</th>
+									<th>Especialidade</th>
+									<th>Nível Prestador</th>
+									<th>Movimento</th>
+									<th>Via Acesso</th>
+									<th>Urg</th>
+									<th>Qtd X Pag</th>
+									<th>Qt</th>
+									<th>Valor</th>
+									<th>Pgto</th>
+									<th>Glosa</th>
+									<th>Qt. Gl</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					
+					<br>
+					
+					<h5>ELOISA AMANDA GEISLER &nbsp;&nbsp;</h5>
+
+					<div class="table-responsive">
+						<table id="prestadorMovimentos3" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th><input type="checkbox"></th>
+									<th>Guia</th>
+									<th>Especialidade</th>
+									<th>Nível Prestador</th>
+									<th>Movimento</th>
+									<th>Via Acesso</th>
+									<th>Urg</th>
+									<th>Qtd X Pag</th>
+									<th>Qt</th>
+									<th>Valor</th>
+									<th>Pgto</th>
+									<th>Glosa</th>
+									<th>Qt. Gl</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+				
+				<div id="movimentos" hidden>
+				
+					<h5>10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO &nbsp;&nbsp;<span class="label label-danger" style="border-radius: 35%;">1</span>&nbsp;&nbsp;&nbsp;<span class="label label-success">8B-4</span></h5>
+
+					<div class="table-responsive">
+						<table id="movimentos1" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th><input type="checkbox"></th>
+									<th>Dt. Real</th>
+									<th>Prestador</th>
+									<th>Espec</th>
+									<th>Nível Prestador</th>
+									<th>Via Acesso</th>
+									<th>Urg</th>
+									<th>Qt</th>
+									<th>Valor</th>
+									<th>Pgto</th>
+									<th>Glosa</th>
+									<th>Qt. Gl</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+
+					<br>
+
+					<h5>10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO &nbsp;&nbsp;<span class="label label-danger" style="border-radius: 35%;">2</span>&nbsp;&nbsp;&nbsp;<span class="label label-success">8B-4</span> <span class="label label-info">Aux: 2</span> <span class="label label-warning">P. Anest. Cob: 1</span></h5>
+					<div class="table-responsive">
+						<table id="movimentos2" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th><input type="checkbox"></th>
+									<th>Dt. Real</th>
+									<th>Prestador</th>
+									<th>Espec</th>
+									<th>Nível Prestador</th>
+									<th>Via Acesso</th>
+									<th>Urg</th>
+									<th>Qt</th>
+									<th>Valor</th>
+									<th>Pgto</th>
+									<th>Glosa</th>
+									<th>Qt. Gl</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<br>
+					
 				</div>
 				
 			</div>
@@ -1177,12 +1336,18 @@
 			$('.icon-view').removeClass('selected');
 			$(el).addClass('selected');
 			
-			if(mode == 'movimento') {
-				$('#prestadoresMovimentos').show();
-				$('#movimentosPrestadores').hide();
+			if(mode == 'guia') {
+				$('#movimentosGuia').show();
+				$('#movimentos').hide();
+				$('#movimentosPrestador').hide();			
+			} else if(mode == 'movimento') {
+				$('#movimentos').show();
+				$('#movimentosGuia').hide();
+				$('#movimentosPrestador').hide();
 			} else {
-				$('#prestadoresMovimentos').hide();
-				$('#movimentosPrestadores').show();
+				$('#movimentosPrestador').show();
+				$('#movimentosGuia').hide();
+				$('#movimentos').hide();
 			}
 		}
 		
@@ -1211,79 +1376,209 @@
 		
 		
 		/**
-		*	autorizados não cobrados
+		*	agrupamento movimentos por guia
 		**/
 		
-		var naoCobrados1 = $('#movimentosNaoCobrados1').DataTable({
+		var guiaMovimentos1 = $('#guiaMovimentos1').DataTable({
 			columnDefs: [{visible:false, targets: [1]}, { className: 'center-align', targets: [  ] }, {className: 'form-inline', targets: [3]}],
 			dom: '',
 			ordering: false
 		});
 
-		var naoCobrados2 = $('#movimentosNaoCobrados2').DataTable({
+		var guiaMovimentos2 = $('#guiaMovimentos2').DataTable({
 			columnDefs: [{visible:false, targets: [1]}, { className: 'center-align', targets: [  ] }, {className: 'form-inline', targets: [3]}],
 			dom: '',
 			ordering: false
 		});
 		
-		var naoCobrados3 = $('#movimentosNaoCobrados3').DataTable({
+		var guiaMovimentos3 = $('#guiaMovimentos3').DataTable({
 			columnDefs: [{visible:false, targets: [1]}, { className: 'center-align', targets: [  ] }, {className: 'form-inline', targets: [3]}],
 			dom: '',
 			ordering: false
 		});
 		
 		
-		
-		
-		naoCobrados1.row.add(['<span class="label label-warning">NC</span>', 
+		guiaMovimentos1.row.add(['<input type="checkbox">', 
 			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
 			'10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO ', 
-			'<select class="form-control"><option>CRM</option><option>CPF</option><option>MATRICULA</option><option>NOME</option></select>&nbsp;&nbsp;<input style="width: 230px !important;" type="text" class="form-control">', 
-			'<select class="form-control"><option>PEDIATRIA</option></select>',
+			'COOP PARAN DOS ANESTESIOLOGISTAS LTDA', 'UNIMEDS',
 			'<select class="form-control" ><option>01 - PRINCIPAL</option><option>02 - DIFERENTES VIAS</option><option>03 - MESMA VIA</option></select>',
-			'<input type="checkbox">', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >'
+			'<input type="checkbox">', '<input type="text" class="form-control" >', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', '<input type="text" class="form-control" style="width: 100%;">'
 		]).draw();
 		
-		naoCobrados1.row.add(['<span class="label label-warning">NC</span>', 
+		guiaMovimentos1.row.add(['<input type="checkbox">', 
 			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
 			'20010010 - ELETROCARDIOGRAMA', 
-			'<select class="form-control"><option>CRM</option><option>CPF</option><option>MATRICULA</option><option>NOME</option></select>&nbsp;&nbsp;<input style="width: 230px !important;" type="text" class="form-control">', 
-			'<select class="form-control"><option>PEDIATRIA</option></select>',
+			'CARLOS EDUARDO GUBERT', 
+			'PEDIATRIA',
 			'<select class="form-control" ><option>01 - PRINCIPAL</option><option>02 - DIFERENTES VIAS</option><option>03 - MESMA VIA</option></select>',
-			'<input type="checkbox">', '<input type="text" class="form-control" value="1" >', '<input type="text" class="form-control" value="1" >'
+			'<input type="checkbox">', '<input type="text" class="form-control" value="1" >', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', '<input type="text" class="form-control" style="width: 100%;">'
 		]).draw();
 		
-		naoCobrados2.row.add(['<span class="label label-warning">NC</span>',
+		guiaMovimentos2.row.add(['<input type="checkbox">', 
 			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
 			'10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO ', 
-			'<select class="form-control"><option>CRM</option><option>CPF</option><option>MATRICULA</option><option>NOME</option></select>&nbsp;&nbsp;<input style="width: 230px !important;" type="text" class="form-control">', 
-			'<select class="form-control"><option>PEDIATRIA</option></select>',
+			'NILSON CESARIO PEREIRA', 'PEDIATRIA',
 			'<select class="form-control"><option value="PRINCIPAL">01 - PRINCIPAL</option><option value="DIFERENTES">02 - DIFERENTES VIAS</option><option value="MESMA">03 - MESMA VIA</option></select>', 
-			'<input type="checkbox">', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<span class="label label-warning">NC</span>'
+			'<input type="checkbox">', '<input type="text" class="form-control" >', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', '<input type="text" class="form-control" style="width: 100%;">'
 		]).draw();		
-		naoCobrados3.row.add(['<span class="label label-success">C</span>', 
+		guiaMovimentos3.row.add(['<input type="checkbox">', 
 			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
-			'20010010 - ELETROCARDIOGRAMA', '<input style="width: 230px !important;" class="form-control" disabled value="CARLOS EDUARDO GUBERT">', 
-			'<select class="form-control" disabled><option>ANESTESISTA</option></select>',
-			'<select class="form-control" disabled><option value="PRINCIPAL">01 - PRINCIPAL</option><option value="DIFERENTES" selected>02 - DIFERENTES VIAS</option><option value="MESMA">03 - MESMA VIA</option></select>', 
-			'<input type="checkbox" disabled>', '1', '1', '<span class="label label-success">C</span>'
+			'20010010 - ELETROCARDIOGRAMA', 'ELOISA AMANDA GEISLER', 'GINECOLOGIA E OBSTETRICIA',
+			'<select class="form-control"><option value="PRINCIPAL">01 - PRINCIPAL</option><option value="DIFERENTES" selected>02 - DIFERENTES VIAS</option><option value="MESMA">03 - MESMA VIA</option></select>', 
+			'<input type="checkbox">', '1', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', '<input type="text" class="form-control" style="width: 100%;">'
+		]).draw();
+		
+		//---------------------------------------------------------------------
+
+		/**
+		*	agrupamento de movimentos por prestador
+		**/
+		
+		var prestadorMovimentos1 = $('#prestadorMovimentos1').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [  ] }, {className: 'form-inline', targets: [3]}],
+			dom: ''
+		});
+
+		var prestadorMovimentos2 = $('#prestadorMovimentos2').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [  ] }, {className: 'form-inline', targets: [3]}],
+			dom: '',
+			ordering: false
+		});
+		
+		var prestadorMovimentos3 = $('#prestadorMovimentos3').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [  ] }, {className: 'form-inline', targets: [3]}],
+			dom: '',
+			ordering: false
+		});
+		
+		prestadorMovimentos1.row.add(['<input type="checkbox">', '00000001', 
+			'UNIMEDS', '<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
+			'10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO ', 
+			'<select class="form-control" ><option>01 - PRINCIPAL</option><option>02 - DIFERENTES VIAS</option><option>03 - MESMA VIA</option></select>',
+			'<input type="checkbox">', '<input type="text" class="form-control" >', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', '<input type="text" class="form-control" style="width: 100%;">'
+		]).draw();
+		
+		prestadorMovimentos2.row.add(['<input type="checkbox">',  '00000001',
+			'PEDIATRIA',
+			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
+			'20010010 - ELETROCARDIOGRAMA', 
+			'<select class="form-control" ><option>01 - PRINCIPAL</option><option>02 - DIFERENTES VIAS</option><option>03 - MESMA VIA</option></select>',
+			'<input type="checkbox">', '<input type="text" class="form-control" value="1" >', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', '<input type="text" class="form-control" style="width: 100%;">'
+		]).draw();
+		
+		prestadorMovimentos3.row.add(['<input type="checkbox">',  '00000001',
+			 'PEDIATRIA', '<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
+			'10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO ', 
+			'<select class="form-control"><option value="PRINCIPAL">01 - PRINCIPAL</option><option value="DIFERENTES">02 - DIFERENTES VIAS</option><option value="MESMA">03 - MESMA VIA</option></select>', 
+			'<input type="checkbox">', '<input type="text" class="form-control" >', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', '<input type="text" class="form-control" style="width: 100%;">'
+		]).draw();		
+		prestadorMovimentos3.row.add(['<input type="checkbox">',  '00000001',
+			'GINECOLOGIA E OBSTETRICIA', 
+			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
+			'20010010 - ELETROCARDIOGRAMA',
+			'<select class="form-control"><option value="PRINCIPAL">01 - PRINCIPAL</option><option value="DIFERENTES" selected>02 - DIFERENTES VIAS</option><option value="MESMA">03 - MESMA VIA</option></select>', 
+			'<input type="checkbox">', '1', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', '<input type="text" class="form-control" style="width: 100%;">'
 		]).draw();
 		
 		
-		function adicionarPrestadorAutorizado(){
-			naoCobrados2.row.add(['<span class="label label-warning">NC</span>','<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '1', '10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO ', '<select class="form-control"><option>GUILHERME</option><option>JOSE</option><option>MARTA</option></select>', 
-				'<select class="form-control"><option>PEDIATRIA</option></select>',
-				'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
-				'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', 
-				'<input type="checkbox">', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<span class="label label-warning">NC</span>'
-			]).draw();
-			
-			naoCobrados2.row.add(['<span class="label label-warning">NC</span>','08/08/2017', '14:00', '18:00', '1', '20010010 - ELETROCARDIOGRAMA', '<select class="form-control"><option>GUILHERME</option><option>JOSE</option><option>MARTA</option></select>', 
-				'<select class="form-control"><option>PEDIATRIA</option></select>',
-				'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
-				'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', 
-				'<input type="checkbox">', '<input type="text" class="form-control" value="1">', '<input type="text" class="form-control" value="1">', '<span class="label label-warning">NC</span>'
-			]).draw();
+		//---------------------------------------------------------------------
+
+		/**
+		*	agrupamento prestador por movimento
+		**/
+		
+		var movimentos1 = $('#movimentos1').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [  ] }, {className: 'form-inline', targets: [3]}],
+			dom: '',
+			ordering: false
+		});
+
+		var movimentos2 = $('#movimentos2').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [  ] }, {className: 'form-inline', targets: [3]}],
+			dom: '',
+			ordering: false
+		});
+		
+		movimentos1.row.add(['<input type="checkbox">',
+			'08/08/2017', 'CARLOS EDUARDO GUBERT', 'PEDIATRIA', 
+			'<select class="form-control"><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>',
+			'<select class="form-control"><option>PRINCIPAL</option><option>DIFERENTES VIAS</option><option>MESMA VIA</option></select>', 
+			'<input type="checkbox">', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', 
+			'<input type="text" class="form-control" style="width: 100%;">'
+		]).draw();
+		
+		movimentos2.row.add(['<input type="checkbox">', 
+			'08/08/2017', 'NILSON CESARIO PEREIRA', 'GINECOLOGIA E OBSTETRICIA', 
+			'<select class="form-control"><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>',
+			'<select class="form-control"><option>PRINCIPAL</option><option>DIFERENTES VIAS</option><option>MESMA VIA</option></select>',
+			'<input type="checkbox">', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', 
+			'<input type="text" class="form-control" style="width: 100%;">'
+		]).draw();
+		
+		movimentos2.row.add(['<input type="checkbox">',
+			'08/08/2017', 'COOP PARAN DOS ANESTESIOLOGISTAS LTDA', 'UNIMEDS', 
+			'<select class="form-control"><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>',
+			'<select class="form-control"><option>PRINCIPAL</option><option>DIFERENTES VIAS</option><option>MESMA VIA</option></select>', 
+			'<input type="checkbox">', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', 
+			'<input type="text" class="form-control" style="width: 100%;">'
+		]).draw();
+		
+		movimentos2.row.add(['<input type="checkbox">',
+			'08/08/2017', 'ELOISA AMANDA GEISLER', 'GINECOLOGIA E OBSTETRICIA',
+			'<select class="form-control"><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>',
+			'<select class="form-control"><option>PRINCIPAL</option><option>DIFERENTES VIAS</option><option>MESMA VIA</option></select>', 
+			'<input type="checkbox">', '1', '281,06', '<input type="checkbox">',
+			'<input type="text" class="form-control" style="width: 100%;">', 
+			'<input type="text" class="form-control" style="width: 100%;">'
+		]).draw();
+		
+		
+		//---------------------------------------------------------------------
+		// ativa o menu de glosar
+		$('#guiaMovimentos1, #guiaMovimentos2, #guiaMovimentos3').on('change', 'tbody tr td:nth-child(1) input[type=checkbox]', function() {
+			$('#guiaMovimentos1 tbody td:nth-child(1) input[type=checkbox], #guiaMovimentos2 tbody td:nth-child(1) input[type=checkbox]').each(function() {
+				if ($(this).is(':checked')) {
+					// mostra o menu
+					$('#glosarMenu').attr('style', 'transform: translateY(0);');
+					$('#glosaMenuInput').focus();
+					return false;
+				} else {
+					// esconde o menu
+					$('#glosarMenu').attr('style', 'transform: translateY(-310px);');
+				}
+			});
+		});
+
+		// select all checkboxes
+		$('#guiaMovimentos1 thead tr th input[type=checkbox], #guiaMovimentos2 thead tr th input[type=checkbox], #guiaMovimentos3 thead tr th input[type=checkbox]').change(function() {
+			$(this)
+				.closest('table')
+				.find('tbody td:nth-child(1) input[type=checkbox]')
+				.prop('checked', $(this).is(':checked'))
+				.change();
+		});
+
+		function descheckar() {
+			$('#guiaMovimentos1 tr :nth-child(1) input[type=checkbox], #guiaMovimentos2 tr :nth-child(1) input[type=checkbox], #guiaMovimentos3 tr :nth-child(1) input[type=checkbox]')
+				.prop('checked', false)
+				.change();
+		}
+		
+		function glosar() {
+			$('#guiaMovimentos1 tbody tr :nth-child(1) input[type=checkbox]:checked, #guiaMovimentos2 tbody tr :nth-child(1) input[type=checkbox]:checked, #guiaMovimentos3 tbody tr :nth-child(1) input[type=checkbox]:checked')
+				.parents('tr').css('background-color', '#f2bb96');	// #f2dede
 		}
 		
 	</script>
