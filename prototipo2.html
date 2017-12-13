@@ -12,9 +12,6 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
 	<style>
-	
-		
-		
 		a {
 			color: #2196F3;
 			text-decoration: none !important;
@@ -240,7 +237,7 @@
 			text-align: center;
 			color: #fff;
 			font-size: 22px;
-			padding: 12px 0;
+			padding: 14px 0;
 		}
 
 		.buttons:not(:last-child):nth-last-child(2) {
@@ -298,17 +295,24 @@
 			opacity: 1;
 		}
 
+		#assumir, #enviar {
+			transition: transform .3s;
+		}
 	</style>
 </head>
 
 <body>
 	
 	<!-- Btns flutuantes fixos de canto de tela para enviar -->
-	<nav class="container">
+	<nav id="enviar" class="container" style="transform: translateY(100%);">
         <a href="index.html" class="buttons" tooltip="Enfermagem"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
         <a href="index.html" class="buttons" tooltip="Auditoria Adm"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a>
         <a href="index.html" class="buttons" tooltip="Parecer Especialista"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
         <a class="buttons" tooltip="Próxima Auditoria" href="index.html"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+    </nav>
+	
+	<nav id="assumir" class="container">
+        <a class="buttons" tooltip="Assumir" href="javascript:void(0)" onclick="changeFAB()" style="background-color: #FFEB3B; color: #444;"><span class="glyphicon glyphicon-inbox" aria-hidden="true"></span></a>
     </nav>
 
 	<br>
@@ -326,10 +330,12 @@
 							<div style="width: calc(100% - 144px); display: inline-block; padding-right: 15px;">
 								<div class="col-md-9">
 									Paciente <strong style="color: #2196F3;">MARILDA SILVERA PINTO</strong> | 23 anos e 15 dias | Feminino com acomodação contratual <strong style="color: #2196F3;">1-SEMIPRIVATIVO</strong>
-									<br><strong style="color: #2196F3;">SADT</strong> realizado em 12/04/2017 no <strong style="color: #2196F3;">UNIMED LITORAL</strong>, solicitado por Dr(a).<strong style="color: #2196F3;"> UNIMED LITORAL</strong>
+									<br><strong style="color: #2196F3;">SADT</strong> realizado em 12/04/2017 no <strong style="color: #2196F3;">DIAGLASER CENTRO DE DIAG. E TRAT. LTDA</strong>, solicitado por Dr(a).<strong style="color: #2196F3;">  MARIO ANTONIO DELLA GIUSTINA FILHO</strong>
+									<br><br><span class="text-muted">Internado em:</span> 13/04/2017
+									<br><span class="text-muted">Alta em:</span> 20/04/2017
 								</div>
 								<div class="col-md-3">
-									<div><span class="label label-warning">SEMI-PRIVATIVO: 3</span></div>
+									<div><span class="label label-warning">SEMI-PRIVATIVO: 3</span> <span class="label label-success">Alta Administrativa</span></div>
 									<div style="margin-top: 10px;"><button class="btn btn-default" type="button">Anexos <span class="badge">2</span></button></div>
 								</div>
 							</div>
@@ -344,9 +350,6 @@
 									<li class="list-inline-item text-center"><a href="#" style="margin-right: 15px;">Prestador</a></li>
 									<li class="list-inline-item text-center"><a href="#" style="margin-right: 15px;">Espelho da Carteira</a></li>
 								</ul>
-							</div>
-							<div class="col-md-3">
-								<button class="btn btn-default" type="button">Assumir tarefa</button>
 							</div>
 							<!-- /.col-md-12 -->
 						</div>
@@ -366,43 +369,43 @@
 							<div class="col-xs-12 col-sm-12 col-md-12">
 								<label class="text-uppercase text-muted">Histórico</label>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted" style="margin-top: 15px;">
 								<img style="width: 50%" src="resources/001-boy.png" alt="Boy">
 								<br/>
 								<span>João Silva</span>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted" style="margin-top: 15px;">
 								<img style="width: 50%" src="resources/002-man-2.png" alt="Man">
 								<br/>
 								<span>Carlos Alberto</span>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted" style="margin-top: 15px;">
 								<img style="width: 50%" src="resources/003-girl.png" alt="Girl">
 								<br/>
 								<span>Maria Clara</span>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted" style="margin-top: 15px;">
 								<img style="width: 50%" src="resources/004-man-1.png" alt="Man">
 								<br/>
 								<span>Luis Augusto</span>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted" style="margin-top: 15px;">
 								<img style="width: 50%" src="resources/005-man.png" alt="Man">
 								<br/>
 								<span>Fernando Luiz</span>
 							</div>
 
-							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted" style="margin-top: 15px;">
 								<img style="width: 50%" src="resources/006-girl-1.png" alt="Man">
 								<br/>
 								<span>Mariana Lopes</span>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted" style="margin-top: 15px;">
 								<img style="width: 50%" src="resources/007-girl.png" alt="Man">
 								<br/>
 								<span>Fernanda Mendes</span>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted" style="margin-top: 15px;">
 								<img style="width: 50%" src="resources/008-boy-1.png" alt="Man">
 								<br/>
 								<span>Bruno França</span>
@@ -466,6 +469,16 @@
 				<dl class="dl-horizontal">
 					<dt>Parecer Auditoria Pré</dt>
 					<dd>---Parecer do Auditor--FAVORÁVEL-- Auditor: CWBRAGA em 04/08/2017 10:04</dd>
+				</dl>
+				<hr>
+				<dl class="dl-horizontal">
+					<dt>Auditoria Administrativa</dt>
+					<dd><span class="text-muted">Carlos Alberto - 20/10/2017 - 17:49:01 disse:</span> teste Fluig3</dd>
+					<dd><span class="text-muted">Maria Clara - 18/10/2017 - 15:42:01 disse:</span> teste FLuig1</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>Auditoria Medica</dt>
+					<dd><span class="text-muted">Luis Augusto - 18/10/2017 - 15:44:05 disse:</span> Teste Fluig2</dd>
 				</dl>
 			</div>
 			<!-- /.panel-body -->
@@ -752,6 +765,20 @@
 				<h3 style="margin-top: 0;">Parecer</h3>
 			</div>
 			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-12 form-group">
+						<label>Anexar arquivos</label>
+						<input type="file" multiple>
+					</div>
+					
+					<div class="col-xs-12 form-group">
+						<table class="table table-striped">
+							<thead><thead>
+							<tbody id="attachmentsList"><tbody>
+						</table>
+					</div>
+				</div>
+				
 				<textarea class="form-control" name="name" rows="8"></textarea>
 			</div>
 		</div>
@@ -911,7 +938,9 @@
 			</div>
 		</div>
 		<!-- /.Modal -->
-		
+			
+		<br>
+		<br>
 	</div>
 	<!-- /.container-fluid -->
 
@@ -1286,6 +1315,27 @@
 			]).draw();
 		}
 		
+		// adicionar anexo
+		$('input[type=file]').change(function() {
+			let files 				= $(this).prop('files');
+			let $attachmentsList 	= $('#attachmentsList');
+			
+			$.each(files, function(item, val) {
+				$attachmentsList.append('<tr><td><a href="index.html" download="' + val.name + '">' + val.name + '</a></td><td onclick="removeAttachment(this)" style="cursor: pointer; width: 60px; text-align: center;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td></td>');
+			});
+			
+			$(this).val(null);
+		});
+		
+		// remove anexo
+		function removeAttachment(elem) {
+			$(elem).parent().remove();
+		}
+		
+		function changeFAB() {
+			$('#assumir').attr('style','transform: translateY(100%);');
+			$('#enviar').removeAttr('style');
+		}
 	</script>
 </body>
 
