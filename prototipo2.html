@@ -466,35 +466,8 @@
 			Prezado auditor, essa conta chegou até você devido a(s) regra(s) <br>  
 			<div data-bind="foreach: rules">         
 
-				<strong><span class="text-error" data-bind="text: cdd_regra_audit">260</span> - <span class="text-error" data-bind="text: nom_regra">CONTROLE DE GLOSAS HCPA - ADM</span> - Versão: <span data-bind="text: num_vers">10</span></strong>
+				<strong><span class="text-error" data-bind="text: cdd_regra_audit">260</span> - <span class="text-error" data-bind="text: nom_regra">CONTROLE DE GLOSAS HCPA </span> - Versão: <span data-bind="text: num_vers">10</span></strong>
 
-				<a data-toggle="tooltip" title="" data-original-title="Clique para visualizar mais detalhes" href="#"><i data-bind="click: handleRulesDetail" class="icon-chevron-down"></i></a>
-
-				<div data-bind="attr: {id: idRuleFieldsGroup}" style="display: none" id="ruleFieldsGroup1511521197599">
-					<ul>
-						<div data-bind="foreach: ruleFields">
-							<li><span data-bind="text: nom_label">PRESTADOR PAGTO. MOVIMENTO</span> 
-								<a href="#" data-bind=" tooltip: { title: des_help_campo, placement: 'bottom' }" data-toggle="tooltip" data-placement="bottom" data-original-title="" title=""><i class="icon-info-sign"></i></a>
-								- <span data-bind="text: ind_tip_operador_logic">IGUAL</span> <span data-bind="text: vl_campo">102053</span></li>
-						
-							<li><span data-bind="text: nom_label">UNID.CARTEIRA</span> 
-								<a href="#" data-bind=" tooltip: { title: des_help_campo, placement: 'bottom' }" data-toggle="tooltip" data-placement="bottom" data-original-title="" title=""><i class="icon-info-sign"></i></a>
-								- <span data-bind="text: ind_tip_operador_logic">IGUAL</span> <span data-bind="text: vl_campo">48</span></li>
-						
-							<li><span data-bind="text: nom_label">GLOSA</span> 
-								<a href="#" data-bind=" tooltip: { title: des_help_campo, placement: 'bottom' }" data-toggle="tooltip" data-placement="bottom" data-original-title="" title=""><i class="icon-info-sign"></i></a>
-								- <span data-bind="text: ind_tip_operador_logic">MAIOR OU IGUAL A</span> <span data-bind="text: vl_campo">1</span></li>
-						
-							<li><span data-bind="text: nom_label">VALIDACAO_PROCEDIMENTO</span> 
-								<a href="#" data-bind=" tooltip: { title: des_help_campo, placement: 'bottom' }" data-toggle="tooltip" data-placement="bottom" data-original-title="" title=""><i class="icon-info-sign"></i></a>
-								- <span data-bind="text: ind_tip_operador_logic">IGUAL</span> <span data-bind="text: vl_campo">1</span></li>
-						
-							<li><span data-bind="text: nom_label">VARIAS_TRANSACOES</span> 
-								<a href="#" data-bind=" tooltip: { title: des_help_campo, placement: 'bottom' }" data-toggle="tooltip" data-placement="bottom" data-original-title="" title=""><i class="icon-info-sign"></i></a>
-								- <span data-bind="text: ind_tip_operador_logic">IGUAL</span> <span data-bind="text: vl_campo">720;730;741;750;760;770;780;790</span></li>
-						</div>
-					</ul>
-				</div> 
 				<br>   
 			</div>
 		</div>
@@ -513,12 +486,12 @@
 				<hr>
 				<dl class="dl-horizontal">
 					<dt>Auditoria Administrativa</dt>
-					<dd><span class="text-muted">Carlos Alberto - 20/10/2017 - 17:49:01 disse:</span> teste Fluig3 - <a href="javascript:void(0)" data-toggle="popover"  data-trigger="focus">3 anexos</a></dd>
-					<dd><span class="text-muted">Maria Clara - 18/10/2017 - 15:42:01 disse:</span> teste FLuig1</dd>
+					<dd><span class="text-muted">Carlos Alberto - 20/10/2017 - 17:49:01 disse:</span> Verificar anexo - <a href="javascript:void(0)" data-toggle="popover"  data-trigger="focus">2 anexos</a></dd>
+					<dd><span class="text-muted">Maria Clara - 18/10/2017 - 15:42:01 disse:</span> Verificar quantidade realizada do procedimento 20010010 </dd>
 				</dl>
 				<dl class="dl-horizontal">
 					<dt>Auditoria Medica</dt>
-					<dd><span class="text-muted">Luis Augusto - 18/10/2017 - 15:44:05 disse:</span> Teste Fluig2</dd>
+					<dd><span class="text-muted">Luis Augusto - 18/10/2017 - 15:44:05 disse:</span> Confirmar via de acesso do atendimento ao RN</dd>
 				</dl>
 			</div>
 			<!-- /.panel-body -->
@@ -1449,7 +1422,7 @@
 			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
 			'20010010 - ELETROCARDIOGRAMA', 'ELOISA AMANDA GEISLER', 'GINECOLOGIA E OBSTETRICIA',
 			'<select class="form-control"><option value="PRINCIPAL">01 - PRINCIPAL</option><option value="DIFERENTES" selected>02 - DIFERENTES VIAS</option><option value="MESMA">03 - MESMA VIA</option></select>', 
-			'<input type="checkbox">', '1', '5', '10', '1', '281,06', '<input type="checkbox">',
+			'<input type="checkbox">', '<input type="text" class="form-control" value="1">', '5', '10', '1', '281,06', '<input type="checkbox">',
 			'<input type="text" class="form-control" numero-glosa>', '<input type="text" class="form-control" style="width: 100%;" disabled>'
 		]).draw();
 		
@@ -1506,7 +1479,7 @@
 			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
 			'20010010 - ELETROCARDIOGRAMA',
 			'<select class="form-control"><option value="PRINCIPAL">01 - PRINCIPAL</option><option value="DIFERENTES" selected>02 - DIFERENTES VIAS</option><option value="MESMA">03 - MESMA VIA</option></select>', 
-			'<input type="checkbox">', '1', '5', '10', '1', '281,06', '<input type="checkbox">',
+			'<input type="checkbox">', '<input type="text" class="form-control" value="1" >', '5', '10', '1', '281,06', '<input type="checkbox">',
 			'<input type="text" class="form-control" numero-glosa>', '<input type="text" class="form-control" style="width: 100%;" disabled>'
 		]).draw();
 		
